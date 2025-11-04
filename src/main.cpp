@@ -9,6 +9,6 @@ void setup() {
 
 void loop() {
 
-  
+  all_mux_nonblocking();
 
 }

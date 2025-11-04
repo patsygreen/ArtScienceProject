@@ -48,6 +48,7 @@ void all_mux_nonblocking() {
     if (now - lastStepTime >= HIGH_DURATION) {
       // advance to next channel
       currentChannel++;
+      Serial.println("ON");
       if (currentChannel >= 8) {
         // switch to low phase
         highPhase = false;
@@ -61,6 +62,7 @@ void all_mux_nonblocking() {
   } else { // lowPhase
     if (now - lastStepTime >= LOW_DURATION) {
       currentChannel++;
+      Serial.println("OFF");
       if (currentChannel >= 8) {
         // reset to high phase
         highPhase = true;
