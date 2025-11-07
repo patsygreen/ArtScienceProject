@@ -34,8 +34,8 @@ void setup_mux() {
 
 // Non-blocking state machine for mux sequence
 
-const unsigned long HIGH_DURATION = 60000;  // ms per channel high
-const unsigned long LOW_DURATION  = 30000;  // ms per channel low
+const unsigned long HIGH_DURATION = 10000;  // ms per channel high
+const unsigned long LOW_DURATION  = 500;  // ms per channel low
 
 int currentChannel = 0;
 bool highPhase = true;              // HIGH phase or LOW phase
@@ -48,8 +48,8 @@ void all_mux_nonblocking() {
     if (now - lastStepTime >= HIGH_DURATION) {
       // advance to next channel
       currentChannel++;
-      Serial.println("ON");
-      if (currentChannel >= 8) {
+      Serial.printf("ON");
+      if (currentChannel >= 3) { //first three channels waterpump/valves 1 2
         // switch to low phase
         highPhase = false;
         currentChannel = 0;
@@ -62,8 +62,8 @@ void all_mux_nonblocking() {
   } else { // lowPhase
     if (now - lastStepTime >= LOW_DURATION) {
       currentChannel++;
-      Serial.println("OFF");
-      if (currentChannel >= 8) {
+      Serial.printf("OFF");
+      if (currentChannel >= 3) { //first three channels waterpump/valves 1 2
         // reset to high phase
         highPhase = true;
         currentChannel = 0;
