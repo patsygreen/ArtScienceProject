@@ -34,7 +34,7 @@ void setup_mux() {
 
 // Non-blocking state machine for mux sequence
 
-const unsigned long HIGH_DURATION = 10000;  // ms per channel high
+const unsigned long HIGH_DURATION = 1000;  // ms per channel high
 const unsigned long LOW_DURATION  = 500;  // ms per channel low
 
 int currentChannel = 0;
