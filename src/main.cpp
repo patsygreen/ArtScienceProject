@@ -27,6 +27,11 @@
 
 DFRobot_VL53L0X sensor;
 
+const uint8_t LED_Microscopy = 7;          // example: built-in LED on many boards
+const uint8_t LED_activateInteraction = 10; // example pin for interaction LED
+
+// ...existing code...
+
 
 void setup() {
   //initialize serial communication at 9600 bits per second:
@@ -39,10 +44,16 @@ void setup() {
   sensor.setMode(sensor.eContinuous,sensor.eHigh);
   //Laser rangefinder begins to work
   sensor.start();
+
+  pinMode(LED_Microscopy, OUTPUT);
+  pinMode(LED_activateInteraction, OUTPUT);
 }
 
 void loop() 
 {
+
+digitalWrite(LED_Microscopy, HIGH); // Turn the Microscopy LED on
+digitalWrite(LED_activateInteraction, HIGH); // Turn the Interaction LED on
 
 all_mux_nonblocking(); 
 
@@ -57,10 +68,9 @@ if(sensor.getDistance() <100){
 }
 
 //constant air circulation
-digitalWrite(g_common_output, HIGH);
-output_mux.channel(8);
-
-
+//uncomment to start working
+// digitalWrite(g_common_output, HIGH);
+// output_mux.channel(8);
 
 }
 
