@@ -3,7 +3,7 @@
 #define pin2 1 
 #define pin3 2 
 #define pin4 3 
-#define pin5 20
+#define pin5 21
 
 const int PWM_PIN = 6;      // your pwm1 pin
 const int PWM_CHANNEL = 0;  // LEDC channel

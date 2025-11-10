@@ -60,5 +60,7 @@ if(sensor.getDistance() <100){
 digitalWrite(g_common_output, HIGH);
 output_mux.channel(8);
 
+
+
 }
 
