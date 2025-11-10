@@ -49,7 +49,7 @@ void all_mux_nonblocking() {
       // advance to next channel
       currentChannel++;
       Serial.printf("ON");
-      if (currentChannel >= 3) { //first three channels waterpump/valves 1 2
+      if (currentChannel >= 4) { //first three channels waterpump/valves 1 2
         // switch to low phase
         highPhase = false;
         currentChannel = 0;
