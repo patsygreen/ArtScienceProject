@@ -52,16 +52,19 @@ void setup() {
 void loop() 
 {
 
-  //possible debug for LED's? turn the output channel to HIGH 
-  //to connect ground to LED's > test tmr
+//possible debug for LED's > turn the output channel to HIGH 
+//to connect ground to LED's > test tmr
 digitalWrite(g_common_output, HIGH);
 output_mux.channel(9);
 
 digitalWrite(LED_Microscopy, HIGH); // Turn the Microscopy LED on
 digitalWrite(LED_activateInteraction, HIGH); // Turn the Interaction LED on
 
+// preprogrammed cycle for algae 
+//both waterpumps and valves go on and off at the same time
 all_mux_nonblocking(); 
 
+// code for touch button 
 if(sensor.getDistance() <100){
   Serial.println("cycle off");
    digitalWrite(g_common_output, LOW);
@@ -73,7 +76,6 @@ if(sensor.getDistance() <100){
 }
 
 //constant air circulation
-//uncomment to start working
 digitalWrite(g_common_output, HIGH);
 output_mux.channel(8);
 
