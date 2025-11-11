@@ -53,11 +53,20 @@ output_mux.channel(9);
 
 digitalWrite(LED_Microscopy, HIGH); // Turn the Microscopy LED on
 
-// preprogrammed cycle for algae 
-//both waterpumps and valves go on and off at the same time
-all_mux_nonblocking(); 
+
+// // preprogrammed cycle for algae using mux, full speed 
+// //both waterpumps and valves go on and off at the same time
+// //uncomment to use function
+// all_mux_nonblocking(); 
+
+// //reduced speed preprogrammed cycle for algae, using pwm 
+// //both waterpumps and valves go on and off at the same time
+// //12 volt! 
+// change to sequence runner?
+pump_reduced_speed();
 
 // code for distance button
+// 5 volt!
 if(sensor.getDistance() <100){
   Serial.println("cycle off");
    digitalWrite(g_common_output, LOW);
@@ -77,6 +86,7 @@ digitalWrite(LED_activateInteraction, HIGH); // Turn the Interaction LED on
 }
 
 //constant air circulation
+//5 volt!
 digitalWrite(g_common_output, HIGH);
 output_mux.channel(8);
 
