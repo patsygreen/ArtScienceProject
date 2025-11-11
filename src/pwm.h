@@ -10,6 +10,12 @@ void setup_pwm() {
     pinMode(PWM3_CHANNEL, OUTPUT);
 }
 
+void pump_reduced_speed(){
+    analogWrite(PWM1_CHANNEL, 128); //255 max
+    analogWrite(PWM2_CHANNEL, 128);
+    analogWrite(PWM3_CHANNEL, 128);
+}
+
 void ramp(){
     for (int duty = 0; duty <= 255; duty++) { //255 max
         analogWrite(PWM1_CHANNEL, duty);
