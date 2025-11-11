@@ -15,47 +15,32 @@ const unsigned long ON_DURATION = 1000;  // ms per channel high
 const unsigned long OFF_DURATION  = 500;  // ms per channel low
 bool highPhasePWM = true;              // HIGH phase or LOW phase
 unsigned long lastStepTimePWM = 0;
-int currentChannelPWM = 0;
 
 //reduced speed function with timing intervals 
-void pump_reduced_speed(){
+//0 is off, 255 is full speed
+void pump_reduced_speed1(){
     unsigned long nowPWM = millis();
 if (highPhasePWM) {
     if (nowPWM - lastStepTimePWM >= ON_DURATION) {
-      // advance to next channel
-      currentChannelPWM++;
-      Serial.printf("ON");
-      if (currentChannelPWM >= 4) { 
+      Serial.printf("ON waterpump 0");
         // switch to low phase
         highPhasePWM = false;
-        currentChannelPWM = 0;
         analogWrite(PWM1_CHANNEL, 0); //255 max
         analogWrite(PWM2_CHANNEL, 0); //255 max
-        output_mux.channel(currentChannelPWM);
-      } else {
-        output_mux.channel(currentChannelPWM);
         lastStepTimePWM = nowPWM;
       }
-    }
-  } else { // lowPhase
+    } else { // lowPhase
     if (nowPWM - lastStepTimePWM >= OFF_DURATION) {
-      currentChannelPWM++;
-      Serial.printf("OFF");
-      if (currentChannelPWM >= 4) { 
+      Serial.printf("OFF waterpump 0"); 
         // reset to high phase
         highPhasePWM = true;
-        currentChannelPWM = 0;
-        analogWrite(PWM1_CHANNEL, 128); //255 max
-        analogWrite(PWM2_CHANNEL, 128); //255 max
-        output_mux.channel(currentChannelPWM);
-      } else {
-        output_mux.channel(currentChannelPWM);
+        analogWrite(PWM1_CHANNEL, 128); //speed
+        analogWrite(PWM2_CHANNEL, 100); //speed
         lastStepTimePWM = nowPWM;
       }
     }
-  }
-
 }
+
 void ramp(){
     for (int duty = 0; duty <= 255; duty++) { //255 max
         analogWrite(PWM1_CHANNEL, duty);

@@ -15,7 +15,7 @@
 #include "Arduino.h"
 #include "Wire.h"
 #include "DFRobot_VL53L0X.h"
-#include "mux.h"
+#include "mux2.h"
 #include "adc.h"
 #include "pwm.h"
 
@@ -59,23 +59,30 @@ digitalWrite(LED_Microscopy, HIGH); // Turn the Microscopy LED on
 // //uncomment to use function
 // all_mux_nonblocking(); 
 
+// // preprogrammed cycle for valves, uses the same timing as pwm
+// // valves go on and off at the same time
+// // change the timing in the pwm file
+all_mux(); 
+
 // //reduced speed preprogrammed cycle for algae, using pwm 
-// //both waterpumps and valves go on and off at the same time
+// // speed can be changed on both motors see pwm file 
+// //both waterpumps go on and off at the same time
 // //12 volt! 
-// change to sequence runner?
-pump_reduced_speed();
+pump_reduced_speed1();
 
 // code for distance button
 // 5 volt!
 if(sensor.getDistance() <100){
   Serial.println("cycle off");
-   digitalWrite(g_common_output, LOW);
-   highPhase = false;
+  analogWrite(PWM1_CHANNEL, 0); //255 max
+  analogWrite(PWM2_CHANNEL, 0); //255 max
+  highPhasePWM = false;
 digitalWrite(LED_activateInteraction, HIGH); // Turn the Interaction LED on
 }else{  
   // Serial.println("No object within 100mm");
-   digitalWrite(g_common_output, HIGH);
-   highPhase = true;
+  analogWrite(PWM1_CHANNEL, 128); //255 max
+  analogWrite(PWM2_CHANNEL, 100); //255 max
+   highPhasePWM = true;
   if(LED_activateInteraction == HIGH){ // blink led if no person close by?
   delay(1000);
   digitalWrite(LED_activateInteraction, LOW); // Turn the Interaction LED off

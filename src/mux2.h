@@ -1,4 +1,6 @@
 #include <CD74HC4067.h>
+#include "pwm.h";
+
 #define pin1 0 
 #define pin2 1 
 #define pin3 2 
@@ -14,7 +16,7 @@ void setup_mux() {
   pinMode(pin1, OUTPUT);
   pinMode(pin2, OUTPUT);
   pinMode(pin3, OUTPUT);
-  pinMode(pin4, OUTPUT); 
+  pinMode(pin4, OUTPUT);  
   pinMode(pin5, OUTPUT);
   digitalWrite(g_common_output, LOW);
   delay(1000);
@@ -23,17 +25,17 @@ void setup_mux() {
 
 void all_mux(){
    digitalWrite(g_common_output, HIGH);
-    for (int i = 0; i < 16; i++) { //16 max
+    for (int i = 0; i < 5; i++) { //first 5 channels
         output_mux.channel(i);
-        delay(50);
+        delay(ON_DURATION);
     }
     delay(250);
    digitalWrite(g_common_output, LOW);
-    for (int i = 0; i < 16; i++) {
+    for (int i = 0; i < 5; i++) {
         output_mux.channel(i);
         delay(50);
     }
-    delay(250);
+    delay(OFF_DURATION);
 }
 
 struct OutputAction {
