@@ -22,7 +22,7 @@
 DFRobot_VL53L0X sensor;
 
 const uint8_t LED_Microscopy = 7;          // example: built-in LED on many boards
-const uint8_t LED_activateInteraction = 10; // example pin for interaction LED
+// const uint8_t LED_activateInteraction = 10; // example pin for interaction LED
 
 // ...existing code...
 
@@ -40,7 +40,7 @@ void setup() {
   sensor.start();
 
   pinMode(LED_Microscopy, OUTPUT);
-  pinMode(LED_activateInteraction, OUTPUT);
+  // pinMode(LED_activateInteraction, OUTPUT);
 }
 
 void loop() 
@@ -52,12 +52,6 @@ digitalWrite(g_common_output, HIGH);
 output_mux.channel(9);
 
 digitalWrite(LED_Microscopy, HIGH); // Turn the Microscopy LED on
-
-
-// // preprogrammed cycle for algae using mux, full speed 
-// //both waterpumps and valves go on and off at the same time
-// //uncomment to use function
-// all_mux_nonblocking(); 
 
 // // preprogrammed cycle for valves, uses the same timing as pwm
 // // valves go on and off at the same time
@@ -77,25 +71,23 @@ if(sensor.getDistance() <100){
   analogWrite(PWM1_CHANNEL, 0); //255 max
   analogWrite(PWM2_CHANNEL, 0); //255 max
   highPhasePWM = false;
-digitalWrite(LED_activateInteraction, HIGH); // Turn the Interaction LED on
 }else{  
   // Serial.println("No object within 100mm");
+  Serial.println("cycle on");
   analogWrite(PWM1_CHANNEL, 128); //255 max
   analogWrite(PWM2_CHANNEL, 100); //255 max
-   highPhasePWM = true;
-  if(LED_activateInteraction == HIGH){ // blink led if no person close by?
+  highPhasePWM = true;
   delay(1000);
-  digitalWrite(LED_activateInteraction, LOW); // Turn the Interaction LED off
-} else{
-  delay(1000);
-  digitalWrite(LED_activateInteraction, HIGH); // Turn the Interaction LED on
 }
-}
-
 //constant air circulation
 //5 volt!
 digitalWrite(g_common_output, HIGH);
 output_mux.channel(8);
-
 }
+
+
+
+
+
+
 
