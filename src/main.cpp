@@ -1,12 +1,5 @@
-
-// //   //// preprogrammed cycle for algae 
-// //   ////both waterpump and valve go on and off at the same time
-// //   // all_mux_nonblocking(); 
-
-
 // //   //simple code for waterlevel sensor
 // //   //uses a optical sensor for reflection of the water
-
 
 // // // int x= analogRead(A0);
 // // // Serial.printf("Analog Read: %d\n", x); //using printf, prints it into terminnal
@@ -17,13 +10,14 @@
 // // // }else{ //reaches water
 // // // digitalWrite(LED_PIN, HIGH);
 // // // }
-//hello
+
 
 #include "Arduino.h"
 #include "Wire.h"
 #include "DFRobot_VL53L0X.h"
 #include "mux.h"
 #include "adc.h"
+#include "pwm.h"
 
 DFRobot_VL53L0X sensor;
 
@@ -58,21 +52,28 @@ digitalWrite(g_common_output, HIGH);
 output_mux.channel(9);
 
 digitalWrite(LED_Microscopy, HIGH); // Turn the Microscopy LED on
-digitalWrite(LED_activateInteraction, HIGH); // Turn the Interaction LED on
 
 // preprogrammed cycle for algae 
 //both waterpumps and valves go on and off at the same time
 all_mux_nonblocking(); 
 
-// code for touch button 
+// code for distance button
 if(sensor.getDistance() <100){
   Serial.println("cycle off");
    digitalWrite(g_common_output, LOW);
    highPhase = false;
+digitalWrite(LED_activateInteraction, HIGH); // Turn the Interaction LED on
 }else{  
   // Serial.println("No object within 100mm");
    digitalWrite(g_common_output, HIGH);
    highPhase = true;
+  if(LED_activateInteraction == HIGH){ // blink led if no person close by?
+  delay(1000);
+  digitalWrite(LED_activateInteraction, LOW); // Turn the Interaction LED off
+} else{
+  delay(1000);
+  digitalWrite(LED_activateInteraction, HIGH); // Turn the Interaction LED on
+}
 }
 
 //constant air circulation
