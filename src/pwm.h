@@ -11,8 +11,8 @@ void setup_pwm() {
     pinMode(PWM3_CHANNEL, OUTPUT);
 }
 
-const unsigned long ON_DURATION = 1000;  // ms per channel high
-const unsigned long OFF_DURATION  = 500;  // ms per channel low
+const unsigned long ON_DURATION = 4000;  // ms per channel high
+const unsigned long OFF_DURATION  = 2000;  // ms per channel low
 bool highPhasePWM = true;              // HIGH phase or LOW phase
 unsigned long lastStepTimePWM = 0;
 
@@ -22,7 +22,7 @@ void pump_reduced_speed1(){
     unsigned long nowPWM = millis();
 if (highPhasePWM) {
     if (nowPWM - lastStepTimePWM >= ON_DURATION) {
-      Serial.printf("ON waterpump 0");
+      Serial.printf("ON waterpumps");
         // switch to low phase
         highPhasePWM = false;
         analogWrite(PWM1_CHANNEL, 0); //255 max
@@ -31,11 +31,11 @@ if (highPhasePWM) {
       }
     } else { // lowPhase
     if (nowPWM - lastStepTimePWM >= OFF_DURATION) {
-      Serial.printf("OFF waterpump 0"); 
+      Serial.printf("OFF waterpumps"); 
         // reset to high phase
         highPhasePWM = true;
         analogWrite(PWM1_CHANNEL, 128); //speed
-        analogWrite(PWM2_CHANNEL, 100); //speed
+        analogWrite(PWM2_CHANNEL, 128); //speed
         lastStepTimePWM = nowPWM;
       }
     }

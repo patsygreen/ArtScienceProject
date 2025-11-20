@@ -31,13 +31,13 @@ void setup() {
   //initialize serial communication at 9600 bits per second:
   Serial.begin(115200);
   //join i2c bus (address optional for master)
-  Wire.begin();
-  //Set I2C sub-device address
-  sensor.begin(0x50);
-  //Set to Back-to-back mode and high precision mode
-  sensor.setMode(sensor.eContinuous,sensor.eHigh);
-  //Laser rangefinder begins to work
-  sensor.start();
+  // Wire.begin();
+  // //Set I2C sub-device address
+  // sensor.begin(0x50);
+  // //Set to Back-to-back mode and high precision mode
+  // sensor.setMode(sensor.eContinuous,sensor.eHigh);
+  // //Laser rangefinder begins to work
+  // sensor.start();
 
   pinMode(LED_Microscopy, OUTPUT);
   // pinMode(LED_activateInteraction, OUTPUT);
@@ -46,16 +46,15 @@ void setup() {
 void loop() 
 {
 
-//possible debug for LED's > turn the output channel to HIGH 
-//to connect ground to LED's > test tmr
-digitalWrite(g_common_output, HIGH);
-output_mux.channel(9);
-
-digitalWrite(LED_Microscopy, HIGH); // Turn the Microscopy LED on
+//turn the output channel to HIGH > to connect ground to LED's > test tmr
+// digitalWrite(g_common_output, HIGH);
+// output_mux.channel(10);
+// digitalWrite(LED_Microscopy, HIGH); // Turn the Microscopy LED on
 
 // // preprogrammed cycle for valves, uses the same timing as pwm
 // // valves go on and off at the same time
 // // change the timing in the pwm file
+
 all_mux(); 
 
 // //reduced speed preprogrammed cycle for algae, using pwm 
@@ -64,29 +63,30 @@ all_mux();
 // //12 volt! 
 pump_reduced_speed1();
 
-// code for distance button
-// 5 volt!
-if(sensor.getDistance() <100){
-  Serial.println("cycle off");
-  analogWrite(PWM1_CHANNEL, 0); //255 max
-  analogWrite(PWM2_CHANNEL, 0); //255 max
-  highPhasePWM = false;
-}else{  
-  // Serial.println("No object within 100mm");
-  Serial.println("cycle on");
-  analogWrite(PWM1_CHANNEL, 128); //255 max
-  analogWrite(PWM2_CHANNEL, 100); //255 max
-  highPhasePWM = true;
-  delay(1000);
-}
 //constant air circulation
 //5 volt!
-digitalWrite(g_common_output, HIGH);
-output_mux.channel(8);
+// digitalWrite(g_common_output, HIGH);
+// output_mux.channel(8);
+
+// code for distance button
+// 5 volt!
+
+// if(sensor.getDistance() <100){
+//   Serial.println("cycle off");
+//   analogWrite(PWM1_CHANNEL, 0); //255 max
+//   analogWrite(PWM2_CHANNEL, 0); //255 max
+//   highPhasePWM = false;
+// }else{  
+//   // Serial.println("No object within 100mm");
+//   Serial.println("cycle on");
+//   analogWrite(PWM1_CHANNEL, 128); //255 max
+//   analogWrite(PWM2_CHANNEL, 128); //255 max
+//   highPhasePWM = true;
+//   delay(1000);
+// }
+
+
 }
-
-
-
 
 
 

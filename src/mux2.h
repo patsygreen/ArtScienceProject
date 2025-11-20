@@ -1,5 +1,5 @@
 #include <CD74HC4067.h>
-#include "pwm.h";
+// #include "pwm.h"
 
 #define pin1 0 
 #define pin2 1 
@@ -11,6 +11,10 @@ const int g_common_output = pin5;
 
 CD74HC4067 output_mux(pin1,pin2,pin3,pin4);
 int incomingByte = 0; // for incoming serial data
+
+const unsigned long ON_DURATION2 = 4000;  // ms per channel high
+const unsigned long OFF_DURATION2  = 2000;  // ms per channel low
+unsigned long lastStepTime = 0;
 
 void setup_mux() {
   pinMode(pin1, OUTPUT);
@@ -24,18 +28,22 @@ void setup_mux() {
 }
 
 void all_mux(){
+   unsigned long now = millis();
+   if (now - lastStepTime >= ON_DURATION2) {
    digitalWrite(g_common_output, HIGH);
-    for (int i = 0; i < 5; i++) { //first 5 channels
+    for (int i = 0; i < 16; i++) { //first 5 channels
         output_mux.channel(i);
-        delay(ON_DURATION);
+        lastStepTime = now;
+        Serial.printf("MUX channel %d\n", i);
     }
-    delay(250);
+  }else {
+    if (now - lastStepTime >= OFF_DURATION2) {
    digitalWrite(g_common_output, LOW);
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < 16; i++) {
         output_mux.channel(i);
-        delay(50);
     }
-    delay(OFF_DURATION);
+  }
+}
 }
 
 struct OutputAction {
@@ -45,8 +53,8 @@ struct OutputAction {
 };
 
 OutputAction sequence[] = { // Here you create a sequence
-  {10, 250, "out15"},   
-  {-1, 5000, "pause"},   
+  {8, ON_DURATION2, "air"},   
+  {-1, OFF_DURATION2, "pause"},   
   {15, 150, "out15"},   
   {-1, 5000, "pause"},  
   {12, 250, "pause"},
